@@ -20,7 +20,12 @@ async def main(request: Request):
             "messages": [{"role": "user", "content": user_text}],
         }
     )
-    answer = response.json()["choices"][0]["message"]["content"]
+    data = response.json()
+if "error" in data:
+    print(f"ОШИБКА DEEPSEEK: {data['error']}")
+    answer = "Извините, произошла ошибка при обращении к DeepSeek."
+else:
+    answer = data["choices"][0]["message"]["content"]
 
     return {
         "version": body["version"],
